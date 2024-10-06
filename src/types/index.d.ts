@@ -1,0 +1,111 @@
+interface IMenuItemProps {
+  id?: number
+  url: string
+  title: string
+  icon: React.ReactNode
+}
+
+interface IActiveNavProps {
+  url: string
+  children: React.ReactNode
+}
+
+interface IBanner {
+  id: number
+  image: string
+  link: string
+}
+
+type Coupon = {
+  coupon_code: string
+  coupon_desc: string
+}
+
+type Category = {
+  category_name: string
+  category_name_show: string
+  category_no: string
+}
+
+type DataPromotion = {
+  count: number
+  data: Promotion[]
+}
+
+type Promotion = {
+  aff_link: string
+  aff_link_campaign_tag: string | null
+  banner: string[]
+  campaign: string
+  campaign_id: string
+  campaign_name: string
+  categories: Category[]
+  coin_cap: number
+  coin_percentage: number
+  content: string
+  coupons: Coupon[]
+  discount_percentage: number
+  discount_value: number
+  domain: string
+  end_time: string
+  id: string
+  image: string
+  is_hot: 'True' | 'False'
+  keyword: string[]
+  link: string
+  max_value: number
+  merchant: string
+  min_spend: number
+  name: string
+  prior_type: number
+  remain: number
+  remain_true: boolean
+  shop_id: number
+  start_time: string
+  status: number
+  time_left: string
+}
+
+interface ICouponParams {
+  is_next_day_coupon?: boolean
+  keyword?: string
+  merchant?: string
+  limit?: number
+  page?: number
+}
+
+interface Merchant {
+  display_name: string[]
+  id: string
+  login_name: string
+  logo: string
+  total_offer: number
+}
+
+interface IKeyWord {
+  id: string
+  keyword: string
+  total_offer: number
+}
+
+interface IOptions {
+  keyword: string
+  merchant: string
+  sortBy: string
+  url: string
+  status: string
+}
+
+export {
+  IMenuItemProps,
+  IActiveNavProps,
+  IBanner,
+  Coupon,
+  Category,
+  Promotion,
+  ICouponParams,
+  DataPromotion,
+  Merchant,
+  IKeyWord,
+  IOptions,
+}
