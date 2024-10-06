@@ -6,6 +6,7 @@ import { ThemeProvider } from '@/components/common/ThemeProvider'
 import { Toaster } from '@/components/ui/toaster'
 import Footer from '@/components/layout/footer/page'
 import ScriptLoader from '@/components/common/ScriptLoader'
+import Script from 'next/script'
 
 export const metadata: Metadata = {
   title: 'Mã giảm giá | Tìm kiếm mã giảm giá hôm nay',
@@ -57,6 +58,19 @@ export default function RootLayout({
         </ThemeProvider>
         <Toaster />
         <ScriptLoader />
+
+        <Script
+          async
+          src='https://www.googletagmanager.com/gtag/js?id=G-YE2MLYL4Q2'
+        ></Script>
+        <Script>
+          {`
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-YE2MLYL4Q2');
+  `}
+        </Script>
       </body>
     </html>
   )
