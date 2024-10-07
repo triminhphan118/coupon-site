@@ -18,7 +18,7 @@ export const couponService = {
     return response.data.data
   },
 
-  getKeywords: async (merchant: string): Promise<Merchant[]> => {
+  getKeywords: async (merchant: string): Promise<IKeyWord[]> => {
     const response = await axiosInstance.get(API_ENDPOINTS.KEYWORDS, {
       params: { merchant },
     })

@@ -47,6 +47,10 @@ export default function RootLayout({
           rel='stylesheet'
         />
         <link rel='icon' href='/img/alo.png' type='image/png' />
+        <meta
+          name='google-site-verification'
+          content='deWYh_QKmuZs-ZU_2TJvLR8uFJrEXX4dT03EH6yrgJc'
+        />
       </head>
       <body className={`${jost.variable} font-primary antialiased`}>
         <ThemeProvider attribute='class' defaultTheme='system'>

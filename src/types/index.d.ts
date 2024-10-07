@@ -94,11 +94,11 @@ interface IOptions {
   sortBy: string
   url: string
   status: string
-  is_next_day_coupon: boolean
+  is_next_day_coupon: string
 }
 
 interface IActionBarProps {
-  merchants: Merchant[]
+  merchants?: Merchant[]
   onSelectFilter: (newFilters: IOptions) => void
   filters: IOptions
 }
