@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { getCoupon } from '@/services/couponServices'
+import { couponService } from '@/services/couponServices'
 import { IOptions, Promotion } from '@/types'
 import { useParams } from 'next/navigation'
 
@@ -19,21 +19,24 @@ export function useFetchWithPagination(
     sortBy: '',
     url: '',
     status: '',
+    is_next_day_coupon: 'false',
   })
   const totalPages = Math.ceil(totalItems / pageSize)
   const params = useParams()
 
   const fetchData = async (page: number, isNewFilter: boolean = false) => {
-    if (params.merchant && !options.merchant) {
-      return
-    }
     setIsLoading(true)
     try {
-      const response = await getCoupon({
+      const response = await couponService.getCoupons({
         ...(options.keyword ? { keyword: options.keyword } : {}),
         ...(options.merchant ? { merchant: options.merchant } : {}),
         ...(options.sortBy ? { sortBy: options.sortBy } : {}),
         ...(options.status ? { status: options.status } : {}),
+        ...(options.is_next_day_coupon
+          ? {
+              is_next_day_coupon: `${options.is_next_day_coupon}`,
+            }
+          : {}),
         ...(options.url ? { url: options.url } : {}),
         page,
         limit: pageSize,
@@ -64,7 +67,13 @@ export function useFetchWithPagination(
   useEffect(() => {
     if (!initialMerchant) return
     fetchData(currentPage, currentPage === 1)
-  }, [currentPage, pageSize, options])
+  }, [currentPage, pageSize]) // Remove options from the dependency array
+
+  useEffect(() => {
+    if (options.merchant) {
+      fetchData(1, true)
+    }
+  }, [options]) // Add a separate effect for options changes
 
   useEffect(() => {
     setOptions(prev => ({ ...prev, merchant: initialMerchant }))

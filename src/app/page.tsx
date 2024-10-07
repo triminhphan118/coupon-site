@@ -7,12 +7,13 @@ import IframeAccesstrade from '@/components/iframe-accesstrade/page'
 export default function Home() {
   return (
     <div>
-      <Container>
+      <Container className='bg-[#f4f4f5]'>
         <BannerSection />
       </Container>
       <Divider />
       <Container>
         <Campaign />
+        <Divider />
         <IframeAccesstrade />
       </Container>
     </div>

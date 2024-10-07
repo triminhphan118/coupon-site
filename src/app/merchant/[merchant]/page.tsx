@@ -1,11 +1,13 @@
 'use client'
 
+import ActionsBar from '@/components/merchant/action/page'
 import CategoryFilter from '@/components/merchant/category-filter/page'
 import LinkInput from '@/components/merchant/search/page'
 import VoucherList from '@/components/merchant/vocher/page'
 import { useFetchWithPagination } from '@/hooks/useCoupons'
 import { useFetchKeyWords } from '@/hooks/useFetchKeyWords'
 import { useMerchant } from '@/hooks/useMerchant'
+import { IOptions } from '@/types'
 import React, { useEffect, useMemo } from 'react'
 
 export default function MerchantPage({
@@ -46,6 +48,10 @@ export default function MerchantPage({
     }
   }, [currrentChant?.id])
 
+  const onSelectFilter = (newFilters: IOptions) => {
+    onSetFilter({ ...filters, ...newFilters })
+  }
+
   return (
     <div className='container mx-auto px-4 py-8'>
       <header className='mb-8 text-center'>
@@ -67,6 +73,11 @@ export default function MerchantPage({
           keyWords={keyWords ?? []}
           keyword={filters?.keyword}
           onSetKeyWord={onSetKeyWord}
+        />
+        <ActionsBar
+          filters={filters}
+          merchants={merchants}
+          onSelectFilter={onSelectFilter}
         />
 
         <VoucherList

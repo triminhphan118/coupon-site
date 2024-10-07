@@ -67,7 +67,7 @@ type Promotion = {
 }
 
 interface ICouponParams {
-  is_next_day_coupon?: boolean
+  is_next_day_coupon?: string
   keyword?: string
   merchant?: string
   limit?: number
@@ -94,6 +94,13 @@ interface IOptions {
   sortBy: string
   url: string
   status: string
+  is_next_day_coupon: boolean
+}
+
+interface IActionBarProps {
+  merchants: Merchant[]
+  onSelectFilter: (newFilters: IOptions) => void
+  filters: IOptions
 }
 
 export {
@@ -108,4 +115,5 @@ export {
   Merchant,
   IKeyWord,
   IOptions,
+  IActionBarProps,
 }

@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query'
-import { getMerchant } from '@/services/couponServices'
+import { couponService } from '@/services/couponServices'
 
 export const useMerchant = () => {
   return useQuery({
     queryKey: ['merchant'],
-    queryFn: () => getMerchant(),
+    queryFn: () => couponService.getMerchants(),
   })
 }

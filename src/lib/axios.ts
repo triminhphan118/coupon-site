@@ -5,7 +5,6 @@ const axiosInstance = axios.create({
   headers: {
     'Content-Type': 'application/json',
     Authorization: 'Token SJQSgblT9TCQ-F5BK4P70v7jgjZ52uRE',
-    // Add any other default headers here
   },
 })
 

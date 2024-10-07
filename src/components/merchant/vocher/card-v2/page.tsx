@@ -54,7 +54,7 @@ const CardPrmo = ({ voucher }: { voucher: Promotion }) => {
         <div className='space-x-2'>
           <Dialog>
             <DialogTrigger asChild>
-              <Button size='sm'>Xem chi tiết</Button>
+              <Button size='sm'>Xem</Button>
             </DialogTrigger>
             <DialogContent className='sm:max-w-[425px]'>
               <DialogHeader>
@@ -89,7 +89,7 @@ const CardPrmo = ({ voucher }: { voucher: Promotion }) => {
             ) : (
               <Copy className='w-4 h-4 mr-1' />
             )}
-            {copied ? 'Đã sao chép' : 'Sao chép mã'}
+            {copied ? 'Yah' : 'Copy'}
           </Button>
         </div>
       </CardFooter>
