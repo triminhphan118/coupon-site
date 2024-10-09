@@ -1,59 +1,49 @@
-'use client'
-
+import ClientComponent from '@/components/common/ClientComponent'
 import ActionsBar from '@/components/merchant/action/page'
 import CategoryFilter from '@/components/merchant/category-filter/page'
 import LinkInput from '@/components/merchant/search/page'
 import VoucherList from '@/components/merchant/vocher/page'
-import { useFetchWithPagination } from '@/hooks/useCoupons'
-import { useFetchKeyWords } from '@/hooks/useFetchKeyWords'
-import { useMerchant } from '@/hooks/useMerchant'
-import { IOptions } from '@/types'
-import React, { useEffect, useMemo } from 'react'
+import { couponService } from '@/services/couponServices'
+import React, { Suspense } from 'react'
 
-export default function MerchantPage({
+export default async function MerchantPage({
   params,
 }: {
   params: { merchant: string }
 }) {
-  const { data: merchants } = useMerchant()
+  const suppliers = await couponService.getMerchants()
 
-  const currrentChant = useMemo(() => {
-    return merchants?.find(
-      merchant => merchant.login_name === params.merchant?.toLocaleLowerCase(),
-    )
-  }, [merchants, params.merchant])
-
-  const { data: keyWords } = useFetchKeyWords(currrentChant?.id ?? '')
-
-  const {
-    data,
-    currentPage,
-    isLoading,
-    totalPages,
-    onSetFilter,
-    filters,
-    fetchNextPage,
-  } = useFetchWithPagination(10, currrentChant?.id ?? '')
-  const onSearch = (url: string) => {
-    onSetFilter({ ...filters, url })
+  if (!suppliers || suppliers.length === 0) {
+    return <div>No suppliers found or error occurred.</div>
   }
 
-  const onSetKeyWord = (keyword: string) => {
-    onSetFilter({ ...filters, keyword })
+  const merchant = suppliers.find(
+    supplier => supplier.login_name === params.merchant,
+  )
+  if (!merchant) {
+    return <div>No merchant found or error occurred.</div>
   }
+  const [coupons, keywords] = await Promise.all([
+    couponService.getCoupons({
+      merchant: merchant?.id,
+    }),
+    couponService.getKeywords(merchant?.id ?? ''),
+  ])
 
-  useEffect(() => {
-    if (currrentChant?.id) {
-      onSetFilter({ ...filters, merchant: currrentChant?.id })
-    }
-  }, [currrentChant?.id])
-
-  const onSelectFilter = (newFilters: IOptions) => {
-    onSetFilter({ ...filters, ...newFilters })
+  if (!coupons || coupons.data?.length === 0) {
+    return <div>No coupons found or error occurred.</div>
   }
 
   return (
     <div className='container mx-auto px-4 py-8'>
+      <Suspense fallback={<div>Loading...</div>}>
+        <ClientComponent
+          initialSuppliers={suppliers}
+          initialCoupons={coupons}
+          initialKeywords={keywords}
+          initialMerchantKey={merchant?.id}
+        />
+      </Suspense>
       <header className='mb-8 text-center'>
         <h1 className='text-2xl font-bold mb-4'>
           Tìm mã giảm giá ngay thoi nào!!!
@@ -66,27 +56,13 @@ export default function MerchantPage({
 
       <main>
         <section className='mb-8'>
-          <LinkInput onSearch={onSearch} />
+          <LinkInput />
         </section>
 
-        <CategoryFilter
-          keyWords={keyWords ?? []}
-          keyword={filters?.keyword}
-          onSetKeyWord={onSetKeyWord}
-        />
-        <ActionsBar
-          filters={filters}
-          merchants={merchants}
-          onSelectFilter={onSelectFilter}
-        />
+        <CategoryFilter />
+        <ActionsBar />
 
-        <VoucherList
-          vouchers={data}
-          fetchNextPage={fetchNextPage}
-          totalPages={totalPages}
-          currentPage={currentPage}
-          isLoading={isLoading}
-        />
+        <VoucherList />
       </main>
     </div>
   )

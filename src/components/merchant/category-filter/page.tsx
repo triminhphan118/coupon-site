@@ -1,36 +1,38 @@
-import { Button } from '@/components/ui/button'
-import { IKeyWord } from '@/types'
+'use client'
 
-export default function CategoryFilter({
-  keyWords,
-  onSetKeyWord,
-  keyword,
-}: {
-  keyWords: IKeyWord[]
-  keyword: string
-  onSetKeyWord: (keyword: string) => void
-}) {
-  if (!keyWords) return null
+import { Button } from '@/components/ui/button'
+import useAppStore from '@/store/useAppStore'
+
+export default function CategoryFilter() {
+  const { keywords, couponFilter, setCouponFilter, searchCoupons } =
+    useAppStore()
+
+  if (!keywords) return null
+
   const handleSelectKeyword = (keyWordCurrent: string) => {
-    if (keyword === keyWordCurrent) {
-      onSetKeyWord('')
+    if (couponFilter.keyword === keyWordCurrent) {
+      setCouponFilter({ keyword: '' })
     } else {
-      onSetKeyWord(keyWordCurrent)
+      setCouponFilter({ keyword: keyWordCurrent })
     }
+    searchCoupons()
   }
+
   return (
     <div className='flex flex-wrap gap-2 mb-8'>
       <Button
-        variant={`${keyword === '' ? 'default' : 'outline'}`}
+        variant={`${couponFilter.keyword === '' ? 'default' : 'outline'}`}
         className='rounded-full'
-        onClick={() => onSetKeyWord('')}
+        onClick={() => handleSelectKeyword('')}
       >
         Tất cả
       </Button>
-      {keyWords.map(keyWord => (
+      {keywords.map(keyWord => (
         <Button
           key={keyWord.keyword}
-          variant={`${keyword === keyWord.keyword ? 'default' : 'outline'}`}
+          variant={`${
+            couponFilter.keyword === keyWord.keyword ? 'default' : 'outline'
+          }`}
           className='rounded-full'
           onClick={() => handleSelectKeyword(keyWord.keyword)}
         >

@@ -66,10 +66,12 @@ type Promotion = {
   time_left: string
 }
 
-interface ICouponParams {
-  is_next_day_coupon?: string
+interface CouponFilter {
   keyword?: string
+  url?: string
   merchant?: string
+  status?: string
+  is_next_day_coupon?: string
   limit?: number
   page?: number
 }
@@ -103,6 +105,37 @@ interface IActionBarProps {
   filters: IOptions
 }
 
+interface Coupon {
+  coupon_code: string
+  coupon_desc: string
+}
+
+interface Category {
+  category_name: string
+  category_name_show: string
+  category_no: string
+}
+
+interface Deal {
+  aff_link: string
+  banners: string[]
+  categories: Category[]
+  content: string
+  coupons: Coupon[]
+  domain: string
+  end_time: string
+  id: string
+  image: string
+  link: string
+  merchant: string
+  name: string
+  start_time: string
+}
+
+interface DealResponse {
+  data: Deal[]
+}
+
 export {
   IMenuItemProps,
   IActiveNavProps,
@@ -116,4 +149,7 @@ export {
   IKeyWord,
   IOptions,
   IActionBarProps,
+  CouponFilter,
+  Deal,
+  DealResponse,
 }

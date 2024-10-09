@@ -5,8 +5,6 @@ import Header from '@/components/layout/header'
 import { ThemeProvider } from '@/components/common/ThemeProvider'
 import { Toaster } from '@/components/ui/toaster'
 import Footer from '@/components/layout/footer/page'
-import ScriptLoader from '@/components/common/ScriptLoader'
-import Script from 'next/script'
 
 export const metadata: Metadata = {
   title: 'Mã giảm giá | Tìm kiếm mã giảm giá hôm nay',
@@ -42,10 +40,6 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <head>
-        <link
-          href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css'
-          rel='stylesheet'
-        />
         <link rel='icon' href='/img/alo.png' type='image/png' />
         <meta
           name='google-site-verification'
@@ -61,20 +55,6 @@ export default function RootLayout({
           </div>
         </ThemeProvider>
         <Toaster />
-        <ScriptLoader />
-
-        <Script
-          async
-          src='https://www.googletagmanager.com/gtag/js?id=G-YE2MLYL4Q2'
-        ></Script>
-        <Script>
-          {`
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-YE2MLYL4Q2');
-  `}
-        </Script>
       </body>
     </html>
   )

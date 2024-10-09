@@ -1,13 +1,14 @@
+'use client'
+
 import Image from 'next/image'
 import { Card, CardContent } from '@/components/ui/card'
 import { getSuppliersAction } from '@/lib/actions/supplierAction'
 import Link from 'next/link'
+import { useStore } from 'zustand'
+import useAppStore from '@/store/useAppStore'
 
-export default async function SupplierPage() {
-  const suppliers = await getSuppliersAction()
-  if (!suppliers || suppliers.length === 0) {
-    return <div>No suppliers found or error occurred.</div>
-  }
+export default function SupplierPage() {
+  const { suppliers } = useAppStore(state => state)
 
   const lowerCase = (text: string): string => {
     if (!text) return text
