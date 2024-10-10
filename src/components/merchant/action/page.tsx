@@ -20,7 +20,7 @@ export default function ActionBar() {
       ? oldMerchants.filter(id => id !== merchant.id)
       : [...oldMerchants, merchant.id]
 
-    setCouponFilter({ merchant: newMerchants.join(',') })
+    setCouponFilter({ merchant: newMerchants.join(','), keyword: '' })
     searchCoupons()
   }
 

@@ -59,11 +59,14 @@ const useAppStore = create<StoreState>((set, get) => ({
         IKeyWord[] | undefined,
         Merchant | undefined,
       ]
-      console.log(':fetchedKeywords:', fetchedKeywords)
       set({
         coupons,
         loading: false,
-        keywords: fetchedKeywords ? fetchedKeywords : [],
+        ...(fetchedKeywords
+          ? { keywords: fetchedKeywords }
+          : couponFilter.merchant?.split(',')?.length === 1
+          ? { keywords: keywords }
+          : { keywords: [] }),
       })
     } catch (error) {
       set({ error: error as Error, loading: false })
