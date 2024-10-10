@@ -41,13 +41,30 @@ const useAppStore = create<StoreState>((set, get) => ({
       couponFilter: { ...state.couponFilter, ...filter },
     })),
   searchCoupons: async () => {
-    console.log('hi')
-
-    const { couponFilter } = get()
+    const { couponFilter, keywords, suppliers } = get()
     set({ loading: true, error: null })
     try {
-      const coupons = await couponService.getCoupons(couponFilter)
-      set({ coupons, loading: false })
+      const promises: Promise<
+        DataPromotion | IKeyWord[] | { count: number; data: IKeyWord[] }
+      >[] = [couponService.getCoupons(couponFilter)]
+      console.log(':couponFilter:', couponFilter)
+      if (
+        couponFilter.merchant?.split(',')?.length === 1 &&
+        keywords.length === 0
+      ) {
+        promises.push(couponService.getKeywords(couponFilter?.merchant))
+      }
+      const [coupons, fetchedKeywords] = (await Promise.all(promises)) as [
+        DataPromotion,
+        IKeyWord[] | undefined,
+        Merchant | undefined,
+      ]
+      console.log(':fetchedKeywords:', fetchedKeywords)
+      set({
+        coupons,
+        loading: false,
+        keywords: fetchedKeywords ? fetchedKeywords : [],
+      })
     } catch (error) {
       set({ error: error as Error, loading: false })
     }

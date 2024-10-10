@@ -5,6 +5,7 @@ import Header from '@/components/layout/header'
 import { ThemeProvider } from '@/components/common/ThemeProvider'
 import { Toaster } from '@/components/ui/toaster'
 import Footer from '@/components/layout/footer/page'
+import { ProgressBar } from '@/components/common/ProgressBar'
 
 export const metadata: Metadata = {
   title: 'Mã giảm giá | Tìm kiếm mã giảm giá hôm nay',
@@ -50,6 +51,7 @@ export default function RootLayout({
         <ThemeProvider attribute='class' defaultTheme='system'>
           <div className='wrapper h-screen'>
             <Header />
+            <ProgressBar />
             <main>{children}</main>
             <Footer />
           </div>
